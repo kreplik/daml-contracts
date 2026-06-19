@@ -81,7 +81,8 @@ FAIL  testCannotIssueZero
 
 The `itests/` directory holds `lit` integration tests that run against a **real
 local Canton node**. `dpm trace test --integration` boots Canton, deploys this
-package's DAR, allocates `Alice`/`Bob`, runs the suite, and tears Canton down:
+package's DAR, allocates `Alice`/`Bob`, runs the suite, and tears Canton down.
+(The `itests/` scaffolding came from `dpm trace test --init`.)
 
 ```bash
 dpm trace test . --integration itests \
@@ -89,10 +90,15 @@ dpm trace test . --integration itests \
   --daml daml
 ```
 
-Each test submits against the live ledger and asserts on the resulting trace —
-e.g. `itests/asset-issue-to-bob.test` issues an Asset owned by Bob and checks
-Bob's participant projection sees it. Needs `lit` and `FileCheck` on PATH; CI is
-in `.github/workflows/integration.yml`.
+Each test submits against the live ledger and asserts on the resulting trace:
+
+- `asset-create.test` — issue an Asset and trace the committed transaction.
+- `asset-issue-to-bob.test` — Alice issues an Asset owned by Bob; check Bob's
+  participant projection sees it (party-scoped visibility on a real ledger).
+- `asset-split-rejected.test` — a Split the contract rejects; the live rejection
+  is captured and mapped back to the Asset source line ("why did it fail").
+
+Needs `lit` and `FileCheck` on PATH; CI is in `.github/workflows/integration.yml`.
 
 ## CI/CD
 
