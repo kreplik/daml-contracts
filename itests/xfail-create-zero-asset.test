@@ -1,0 +1,14 @@
+# Integration test (XFAIL demo): creating an Asset with quantity=0 is rejected
+# by the template's `ensure quantity > 0` guard, so the submit fails and no
+# committed update exists to trace. The CHECK expects a CREATE that never
+# happens. Marked XFAIL to demonstrate what a failed integration test looks
+# like in the CI log (with --verbose) without breaking the gate.
+#
+# XFAIL: .*
+# RUN: ID=$(%dpm submit --submitter %ledger --act-as %alice \
+# RUN:        --template '#asset-tests:Asset:Asset' \
+# RUN:        --arg issuer=%alice --arg owner=%alice --arg name=ZERO --arg quantity=0) \
+# RUN:   && %dpm trace "$ID" --submitter %ledger --read-as %alice --color never | FileCheck %s
+
+# CHECK: CREATE Asset:Asset
+# CHECK: name: ZERO{{.*}}quantity: 0

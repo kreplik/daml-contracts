@@ -99,8 +99,14 @@ Each test submits against the live ledger and asserts on the resulting trace:
   separate participant via `%ledger2` (run with `--parties Alice@1,Bob@2`).
 - `asset-split-rejected.test` — a Split the contract rejects; the live rejection
   is captured and mapped back to the Asset source line ("why did it fail").
+- `xfail-create-zero-asset.test` — **XFAIL**: a submit that the `ensure` guard
+  rejects; marked `# XFAIL: .*` so it demonstrates what a failed integration
+  test looks like in the CI log without breaking the gate.
 
 Needs `lit` and `FileCheck` on PATH; CI is in `.github/workflows/integration.yml`.
+Pass `--verbose` to `dpm trace test --integration` for per-test command output
+(`lit -vv`) and the Canton log tail on failure — the CI job uses it so a failed
+or XFAIL test is fully visible in the job log.
 
 ## CI/CD
 
