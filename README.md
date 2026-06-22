@@ -1,7 +1,8 @@
-# asset-tests — Daml Script tests with `dpm trace test`
+# asset-tests — Daml Script unit and Canton integration tests with `dpm trace test`
 
-A small, self-contained Daml package that shows how to run **unit** and
-**integration** tests through `dpm trace test` and wire both into CI/CD.
+A small, self-contained Daml package that shows how to run **unit tests** (on
+the in-memory IDE ledger) and **integration tests** (against a real local
+Canton node) through `dpm trace test`, and wire both into CI/CD.
 
 `dpm trace test` wraps `daml test` and adds what it does not:
 
