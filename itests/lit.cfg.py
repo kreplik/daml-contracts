@@ -30,6 +30,7 @@ config.substitutions.append(("%damlc", os.environ.get("DPM_TRACE_IT_DAML", "daml
 # %ledger2 must precede %ledger -- otherwise "%ledger" matches inside "%ledger2".
 config.substitutions.append(("%ledger2", os.environ.get("DPM_TRACE_IT_LEDGER2", "")))
 config.substitutions.append(("%ledger", ledger))
+config.substitutions.append(("%issuer", os.environ.get("DPM_TRACE_IT_ISSUER", "")))
 config.substitutions.append(("%alice", os.environ.get("DPM_TRACE_IT_ALICE", "")))
 config.substitutions.append(("%bob", os.environ.get("DPM_TRACE_IT_BOB", "")))
 config.substitutions.append(("%dar", os.environ.get("DPM_TRACE_IT_DAR", "")))

@@ -45,3 +45,31 @@ template Asset
       controller owner
       do
         pure ()
+
+    -- | Withdraw a certain amount from the asset, reducing its quantity.
+    choice Withdraw : ContractId Asset
+      with amount : Int
+      controller owner
+      do
+        assertMsg "Insufficient balance" (quantity >= amount)
+        create this with quantity = quantity - amount
+
+template AssetRegistry
+  with
+    issuer    : Party
+    activeIds : [Text]
+  where
+    signatory issuer
+
+    choice IssueAsset : (ContractId AssetRegistry, ContractId Asset)
+      with
+        owner : Party
+        name : Text
+        quantity : Int
+      controller issuer
+      do
+        assertMsg ("DUPLICATE_CONTRACT_KEY: Token with ID '" <> name <> "' already exists!") 
+                  (name `notElem` activeIds)
+        assetCid <- create Asset with issuer, owner, name, quantity
+        newRegistryCid <- create this with activeIds = name :: activeIds
+        return (newRegistryCid, assetCid)

@@ -25,3 +25,13 @@ testOverSplitRejected = do
   _ <- submit alice do
     exerciseCmd cid Split with splitQuantity = 0
   pure ()
+
+testInsufficientBalance : Script ()
+testInsufficientBalance = do
+  issuer <- allocateParty "Issuer"
+  alice <- allocateParty "Alice"
+  cid <- submit issuer do
+    createCmd Asset with issuer; owner = alice; name = "GOLD"; quantity = 100    
+  _ <- submit alice do
+    exerciseCmd cid Withdraw with amount = 150
+  pure()  
