@@ -9,6 +9,7 @@ import lit.formats
 config.name = "dpm-trace-integration"
 config.test_format = lit.formats.ShTest(execute_external=True)  # real /bin/sh: $(...) etc.
 config.suffixes = [".test"]
+config.excludes = ["demos"]
 config.test_source_root = os.path.dirname(__file__)
 config.test_exec_root = os.path.join(config.test_source_root, ".lit")
 

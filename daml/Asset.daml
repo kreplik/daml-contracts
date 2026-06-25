@@ -68,7 +68,7 @@ template AssetRegistry
         quantity : Int
       controller issuer
       do
-        assertMsg ("DUPLICATE_CONTRACT_KEY: Token with ID '" <> name <> "' already exists!") 
+        assertMsg "DUPLICATE_CONTRACT_KEY: Asset name already exists in registry"
                   (name `notElem` activeIds)
         assetCid <- create Asset with issuer, owner, name, quantity
         newRegistryCid <- create this with activeIds = name :: activeIds
