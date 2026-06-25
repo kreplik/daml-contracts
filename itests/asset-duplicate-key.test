@@ -22,6 +22,7 @@
 # CHECK: DPM trace completion
 # CHECK: result:     completion failed
 # CHECK: status:     DAML_FAILURE
-# CHECK: DUPLICATE_CONTRACT_KEY
+# CHECK: DUPLICATE_CONTRACT_KEY: Asset name already exists in registry
 # CHECK: Source diagnostics
-# CHECK: .daml:{{[0-9]+}}
+# CHECK: Asset.daml:{{[0-9]+}}
+# CHECK: assertMsg "DUPLICATE_CONTRACT_KEY: Asset name already exists in registry"

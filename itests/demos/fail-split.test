@@ -1,0 +1,18 @@
+# Integration failure demo (non-gating).
+#
+# Submits a Split with splitQuantity=0, captures the rejection, and runs
+# dpm trace to map it back to the source line. The test deliberately ends
+# with `&& false` so it fails and its output appears in the CI log (via
+# --verbose on the failing step), mirroring FailureDemo.daml for unit tests.
+#
+# RUN: CREATE_ID=$(%dpm submit --submitter %ledger --act-as %alice \
+# RUN:   --template '#asset-tests:Asset:Asset' \
+# RUN:   --arg issuer=%alice --arg owner=%alice --arg name=GOLD --arg quantity=100) \
+# RUN:   && CID=$(%dpm "$CREATE_ID" --submitter %ledger --read-as %alice --print-json \
+# RUN:      | %python -c 'import sys,json; d=json.load(sys.stdin); print(next(e["contractId"] for e in d["eventsById"].values() if e.get("contractId")))') \
+# RUN:   && %dpm submit --submitter %ledger --act-as %alice \
+# RUN:      --template '#asset-tests:Asset:Asset' --choice Split \
+# RUN:      --contract-id "$CID" --arg splitQuantity=0 \
+# RUN:      --allow-fail --print-json > %t.json \
+# RUN:   && %dpm --completion-file %t.json --daml-yaml %daml-yaml --dar %dar --damlc %damlc --color never \
+# RUN:   && false

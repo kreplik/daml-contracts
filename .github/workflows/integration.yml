@@ -44,3 +44,15 @@ jobs:
             --parties Alice@1,Bob@2,Issuer@1 \
             --verbose \
             --color always
+
+      - name: Failure demo (source-mapped, non-gating)
+        continue-on-error: true
+        run: |
+          PYTHONPATH="$GITHUB_WORKSPACE/dpm-trace/src" python3 -m dpm_trace.cli test . \
+            --integration itests/demos \
+            --canton-jar "$HOME/.daml/sdk/3.4.11/canton/canton.jar" \
+            --daml daml \
+            --parties Alice@1,Bob@2,Issuer@1 \
+            --verbose \
+            --color always
+
