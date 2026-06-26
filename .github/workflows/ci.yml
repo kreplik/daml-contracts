@@ -52,7 +52,7 @@ jobs:
       # how dpm trace maps a failure to source. Non-blocking: continue-on-error
       # keeps the build green while the source-mapped failure appears in the log.
       - name: Failure demo (source-mapped, non-gating)
-        continue-on-error: true
+        continue-on-error: false
         run: |
           PYTHONPATH="$GITHUB_WORKSPACE/dpm-trace/src" python3 -m dpm_trace.cli test . \
             --daml daml \
