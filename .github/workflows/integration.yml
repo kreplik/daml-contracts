@@ -46,7 +46,7 @@ jobs:
             --color always
 
       - name: Failure demo (source-mapped, non-gating)
-        continue-on-error: true
+        continue-on-error: false
         run: |
           PYTHONPATH="$GITHUB_WORKSPACE/dpm-trace/src" python3 -m dpm_trace.cli test . \
             --integration itests/demos \
