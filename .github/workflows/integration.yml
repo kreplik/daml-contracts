@@ -29,13 +29,13 @@ jobs:
       # dpm-trace is a Go binary now; build it once and put it on PATH.
       - name: Build dpm-trace
         run: |
-          go build -C dpm-trace -o "$RUNNER_TEMP/dpm-trace" ./cmd/dpm-trace
+          go build -C dpm-trace -o "$RUNNER_TEMP/dpm-trace" ./cmd/trace
           echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
 
-      - name: Install Daml SDK (includes the Canton jar)
+      - name: Install DPM and the Daml SDK (includes the Canton jar)
         run: |
-          curl -sSL https://get.daml.com/ | sh -s 3.4.11
-          echo "$HOME/.daml/bin" >> "$GITHUB_PATH"
+          curl -sSL https://get.digitalasset.com/install/install.sh | sh -s 3.5.1
+          echo "$HOME/.dpm/bin" >> "$GITHUB_PATH"
 
       - name: Install lit + FileCheck
         run: |
@@ -49,8 +49,8 @@ jobs:
         run: |
           dpm-trace test . \
             --integration itests \
-            --canton-jar "$HOME/.daml/sdk/3.4.11/canton/canton.jar" \
-            --daml daml \
+            --canton-jar "$HOME/.dpm/cache/components/canton-open-source/3.5.1/lib/canton-open-source-3.5.1.jar" \
+            --daml dpm \
             --parties Alice@1,Bob@2,Issuer@1 \
             --verbose \
             --color always
@@ -60,8 +60,8 @@ jobs:
         run: |
           dpm-trace test . \
             --integration itests/demos \
-            --canton-jar "$HOME/.daml/sdk/3.4.11/canton/canton.jar" \
-            --daml daml \
+            --canton-jar "$HOME/.dpm/cache/components/canton-open-source/3.5.1/lib/canton-open-source-3.5.1.jar" \
+            --daml dpm \
             --parties Alice@1,Bob@2,Issuer@1 \
             --verbose \
             --color always
