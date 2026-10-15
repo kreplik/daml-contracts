@@ -59,8 +59,8 @@ suite over, and tears down. (The `itests/` scaffolding came from
 
 ```bash
 dpm trace test . --integration itests \
-  --canton-jar "$HOME/.daml/sdk/3.4.11/canton/canton.jar" \
-  --daml daml \
+  --canton-jar "$HOME/.dpm/cache/components/canton-open-source/3.5.1/lib/canton-open-source-3.5.1.jar" \
+  --daml dpm \
   --parties Alice@1,Bob@2,Issuer@1 \
   --verbose
 ```

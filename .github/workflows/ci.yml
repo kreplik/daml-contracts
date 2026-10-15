@@ -32,24 +32,24 @@ jobs:
       # dpm-trace is a Go binary now; build it once and put it on PATH.
       - name: Build dpm-trace
         run: |
-          go build -C dpm-trace -o "$RUNNER_TEMP/dpm-trace" ./cmd/dpm-trace
+          go build -C dpm-trace -o "$RUNNER_TEMP/dpm-trace" ./cmd/trace
           echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
 
-      - name: Install Daml SDK
+      - name: Install DPM and the Daml SDK
         run: |
-          curl -sSL https://get.daml.com/ | sh -s 3.4.11
-          echo "$HOME/.daml/bin" >> "$GITHUB_PATH"
+          curl -sSL https://get.digitalasset.com/install/install.sh | sh -s 3.5.1
+          echo "$HOME/.dpm/bin" >> "$GITHUB_PATH"
 
       # Build the DAR so dpm trace test can verify failure text against the
       # compiled package with `damlc inspect` (the --dar flag below).
       - name: Build the DAR
-        run: daml build
+        run: dpm build
 
       # The gate: the passing suite in daml/Test.daml. A non-zero exit fails CI.
       - name: Run Daml Script unit tests (dpm trace test)
         run: |
           dpm-trace test . \
-            --daml daml \
+            --daml dpm \
             --files daml/Test.daml \
             --dar .daml/dist/asset-tests-1.0.0.dar \
             --junit dpm-trace-results.xml \
@@ -63,7 +63,7 @@ jobs:
         continue-on-error: false
         run: |
           dpm-trace test . \
-            --daml daml \
+            --daml dpm \
             --files daml/FailureDemo.daml \
             --dar .daml/dist/asset-tests-1.0.0.dar \
             --no-trees \

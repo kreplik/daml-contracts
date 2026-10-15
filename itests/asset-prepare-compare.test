@@ -26,5 +26,5 @@
 # CHECK: kind: prepared-vs-update
 # CHECK: result: no visible differences
 # CHECK: shape: matches
-# CHECK: Field diff
-# CHECK: (matches)
+# CHECK: {{Field diff|Event diff}}
+# CHECK: {{\(matches\)|EXERCISE Asset:Asset.Transfer .* same}}
